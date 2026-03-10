@@ -4,17 +4,20 @@ import { AppProvider } from "@shopify/shopify-app-remix/react";
 import { NavMenu } from "@shopify/app-bridge-react";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 import { authenticate } from "../shopify.server";
+import { json } from "@remix-run/node";
+import { useLoaderData, useRouteError } from "@remix-run/react";
 
 export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
 
 export const loader = async ({ request }: { request: Request }) => {
   await authenticate.admin(request);
-  return null;
+  return json({ apiKey: process.env.SHOPIFY_API_KEY || "" });
 };
 
 export default function App() {
+  const { apiKey } = useLoaderData<typeof loader>();
   return (
-    <AppProvider isEmbeddedApp apiKey={process.env.SHOPIFY_API_KEY!}>
+    <AppProvider isEmbeddedApp apiKey={apiKey}>
       <NavMenu>
         <a href="/app" rel="home">Home</a>
       </NavMenu>
@@ -28,5 +31,3 @@ export function ErrorBoundary() {
 }
 
 export const headers = boundary.headers;
-
-import { useRouteError } from "@remix-run/react";
