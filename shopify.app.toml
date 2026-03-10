@@ -1,13 +1,17 @@
 name = "urgency-stock-timer-pro"
-client_id = ""
-application_url = ""
+client_id = "2027c549d25100032acc19fa2e141752"
+application_url = "https://urgency-stock-timer-pro-production.up.railway.app"
 embedded = true
 
 [access_scopes]
 scopes = "read_products"
 
 [auth]
-redirect_urls = []
+redirect_urls = [
+  "https://urgency-stock-timer-pro-production.up.railway.app/auth/callback",
+  "https://urgency-stock-timer-pro-production.up.railway.app/auth/shopify/callback",
+  "https://urgency-stock-timer-pro-production.up.railway.app/api/auth/callback"
+]
 
 [webhooks]
 api_version = "2024-01"
