@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+model ShopSettings {
+  id             Int      @id @default(autoincrement())
+  shop           String   @unique
+  enabled        Boolean  @default(true)
+  message        String   @default("🔥 Hurry! Only {stock} left in stock!")
+  minStock       Int      @default(1)
+  maxStock       Int      @default(9)
+  bgColor        String   @default("#fff3cd")
+  textColor      String   @default("#856404")
+  showIcon       Boolean  @default(true)
+  pulseAnimation Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
